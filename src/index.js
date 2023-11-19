@@ -3,15 +3,23 @@ import { fetchBreeds, fetchCatByBreed } from './api/cat-api.js';
 const select = document.querySelector('.breed-select');
 const divInfo = document.querySelector('.cat-info');
 const loader = document.querySelector(('.loader'));
-
+const errorText = document.querySelector('.error');
 
 let selectedId;
 let isLoading = true;
+errorText.style.display = 'none';
 console.log(isLoading);
 
 function FetchCatByIdDecorator() {
   fetchCatByBreed(selectedId)
-  .then(data => divInfo.innerHTML = createMarkup(data))
+  .then(data => {
+    if (!data) {
+      errorText.style.display = 'block';
+    }
+
+    loader.style.display = 'none';
+    divInfo.innerHTML = createMarkup(data);
+  })
   .catch(err => console.log(err));
 }
 
@@ -20,13 +28,11 @@ fetchBreeds()
   if (isLoading) {
     loader.style.display = 'block';
   }
-  // if (!data) {
-  //   isLoading = true;
-  //   console.log(isLoading);
-  // }
+
   isLoading = false;
   loader.style.display = 'none';
   console.log(isLoading);
+
   select.insertAdjacentHTML('afterbegin', createOptions(data));
   selectedId = select.value;
   console.log(selectedId);
@@ -45,6 +51,7 @@ function createMarkup(data) {
       class='img'
       src='${data.url}'
       alt='${description}'
+      width='500'
     />
     <h1 class='title'>${name}</h1>
     <p class='description'>${description}</p>
@@ -61,6 +68,7 @@ function createOptions(arr) {
 
 select.addEventListener('change', function() {
   selectedId = this.value;
+  loader.style.display = 'block';
   FetchCatByIdDecorator();
   console.log(selectedId);
 });
