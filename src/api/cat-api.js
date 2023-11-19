@@ -1,13 +1,26 @@
 import axios from 'axios';
-import { KEYS } from './keys.js';
+import { API_KEY, BASE_URL, IMAGE_URL } from './keys.js';
 
-axios.defaults.headers.common['x-api-key'] = KEYS.API_KEY;
+axios.defaults.headers.common['x-api-key'] = API_KEY;
 
-export function fetchBreeds () {
-  return axios(KEYS.BASE_URL)
+function fetchBreeds() {
+  return axios(BASE_URL)
   .then(response => {
     console.log(response);
+
     return response.data;
   })
   .catch(err => console.log(err.message));
 }
+
+function fetchCatByBreed(breedId) {
+  return axios(`${IMAGE_URL}=${breedId}`)
+  .then(res => {
+    console.log(res.data[0]);
+
+    return res.data[0];
+  })
+  .catch(err => console.log(err));
+}
+
+export { fetchBreeds, fetchCatByBreed };
