@@ -2,8 +2,12 @@ import { fetchBreeds, fetchCatByBreed } from './api/cat-api.js';
 
 const select = document.querySelector('.breed-select');
 const divInfo = document.querySelector('.cat-info');
+const loader = document.querySelector(('.loader'));
+
 
 let selectedId;
+let isLoading = true;
+console.log(isLoading);
 
 function FetchCatByIdDecorator() {
   fetchCatByBreed(selectedId)
@@ -13,6 +17,16 @@ function FetchCatByIdDecorator() {
 
 fetchBreeds()
 .then(data => {
+  if (isLoading) {
+    loader.style.display = 'block';
+  }
+  // if (!data) {
+  //   isLoading = true;
+  //   console.log(isLoading);
+  // }
+  isLoading = false;
+  loader.style.display = 'none';
+  console.log(isLoading);
   select.insertAdjacentHTML('afterbegin', createOptions(data));
   selectedId = select.value;
   console.log(selectedId);
@@ -27,10 +41,14 @@ function createMarkup(data) {
   const { description, name, temperament } = data.breeds[0];
 
   return `
-    <img src='${data.url}' alt='${description}'/>
-    <h1>${name}</h1>
-    <p>${description}</p>
-    <p>${temperament}</p>
+    <img
+      class='img'
+      src='${data.url}'
+      alt='${description}'
+    />
+    <h1 class='title'>${name}</h1>
+    <p class='description'>${description}</p>
+    <p class='temperament'>${temperament}</p>
   `;
 }
 
