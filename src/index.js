@@ -7,41 +7,54 @@ const errorText = document.querySelector('.error');
 
 let selectedId;
 let isLoading = true;
-errorText.style.display = 'none';
+errorText.classList.add('hidden');
 console.log(isLoading);
 
-function FetchCatByIdDecorator() {
+function FetchDecorator() {
   fetchCatByBreed(selectedId)
   .then(data => {
-    if (!data) {
-      errorText.style.display = 'block';
-    }
+    // handleLoadingRes();
 
-    loader.style.display = 'none';
+    // if (isLoading) {
+    //   // loader.classList.remove('hidden');
+    // }
+    // isLoading = false;
+
+    handleSuccessRes();
     divInfo.innerHTML = createMarkup(data);
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+    console.log(err);
+    handleErrorRes();
+  });
 }
 
 fetchBreeds()
 .then(data => {
-  if (isLoading) {
-    loader.style.display = 'block';
-  }
+  // isLoading = true;
+  //
+  // if (isLoading) {
+  //   loader.classList.remove('hidden');
+  // }
+  //
+  // isLoading = false;
 
-  isLoading = false;
-  loader.style.display = 'none';
-  console.log(isLoading);
+  handleLoadingRes();
+  // console.log(isLoading);
 
+  handleSuccessRes();
   select.insertAdjacentHTML('afterbegin', createOptions(data));
   selectedId = select.value;
   console.log(selectedId);
 
   if (!divInfo.length) {
-    FetchCatByIdDecorator();
+    FetchDecorator();
   }
 })
-.catch(err => console.log(err));
+.catch(err => {
+  console.log(err);
+  handleErrorRes();
+});
 
 function createMarkup(data) {
   const { description, name, temperament } = data.breeds[0];
@@ -65,10 +78,26 @@ function createOptions(arr) {
   `);
 }
 
+function handleErrorRes() {
+  loader.classList.add('hidden');
+  errorText.classList.remove('hidden');
+}
+
+function handleLoadingRes() {
+  errorText.classList.add('hidden');
+  loader.classList.remove('hidden');
+  divInfo.classList.add('hidden');
+}
+
+function handleSuccessRes() {
+  errorText.classList.add('hidden');
+  loader.classList.add('hidden');
+  divInfo.classList.remove('hidden');
+}
 
 select.addEventListener('change', function() {
   selectedId = this.value;
-  loader.style.display = 'block';
-  FetchCatByIdDecorator();
+  handleLoadingRes();
+  FetchDecorator();
   console.log(selectedId);
 });
