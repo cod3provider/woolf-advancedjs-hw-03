@@ -60,15 +60,23 @@ function createMarkup(data) {
   const { description, name, temperament } = data.breeds[0];
 
   return `
-    <img
-      class='img'
-      src='${data.url}'
-      alt='${description}'
-      width='500'
-    />
-    <h1 class='title'>${name}</h1>
-    <p class='description'>${description}</p>
-    <p class='temperament'>${temperament}</p>
+    <div>
+      <h1 class='title'>${name}</h1>
+      <div class='content_wrapper'>
+        <div class='img_wrapper'>
+        <img
+          class='img'
+          src='${data.url}'
+          alt='${description}'
+          width='500'
+        />
+      </div>
+      <div class='text_wrapper'>
+        <p class='description'>${description}</p>
+        <p class='temperament'>${temperament}</p>
+      </div>
+      </div>
+    </div>
   `;
 }
 
