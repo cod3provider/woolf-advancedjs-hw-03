@@ -2,16 +2,26 @@ import { fetchBreeds, fetchCatByBreed } from './api/cat-api.js';
 
 import SlimSelect from 'slim-select';
 import "slim-select/styles";
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 const select = document.querySelector('.breed-select');
 const divInfo = document.querySelector('.cat-info');
 const loader = document.querySelector(('.loader'));
-const errorText = document.querySelector('.error');
+// const errorText = document.querySelector('.error');
 
 let selectedId;
 let isLoading = true;
-errorText.classList.add('hidden');
+// errorText.classList.add('hidden');
 console.log(isLoading);
+
+const errorToast = () => {
+  iziToast.error({
+    title: 'Oops!',
+    message: 'Something went wrong! Try reloading the page!',
+    position: 'topRight',
+  });
+}
 
 function FetchDecorator() {
   fetchCatByBreed(selectedId)
@@ -98,17 +108,19 @@ function createOptions(arr) {
 
 function handleErrorRes() {
   loader.classList.add('hidden');
-  errorText.classList.remove('hidden');
+  // errorText.classList.remove('hidden');
+  errorToast();
 }
 
+
 function handleLoadingRes() {
-  errorText.classList.add('hidden');
+  // errorText.classList.add('hidden');
   loader.classList.remove('hidden');
   divInfo.classList.add('hidden');
 }
 
 function handleSuccessRes() {
-  errorText.classList.add('hidden');
+  // errorText.classList.add('hidden');
   loader.classList.add('hidden');
   divInfo.classList.remove('hidden');
 }
