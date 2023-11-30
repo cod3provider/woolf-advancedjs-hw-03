@@ -42,7 +42,6 @@ fetchBreeds()
   selectedId = select.value;
 })
 .catch(() => {
-  // console.log(err);
   divInfo.innerHTML = '';
   handleErrorRes();
 });
@@ -83,7 +82,6 @@ function handleErrorRes() {
 }
 
 function handleLoadingRes() {
-  select.classList.remove('hidden');
   loader.classList.remove('hidden');
   divInfo.classList.add('hidden');
 }
@@ -94,8 +92,10 @@ function handleSuccessRes() {
   divInfo.classList.remove('hidden');
 }
 
-select.addEventListener('change', function() {
+function handleChange() {
   selectedId = this.value;
   handleLoadingRes();
   FetchDecorator();
-});
+}
+
+select.addEventListener('change', handleChange);
