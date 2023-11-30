@@ -2,14 +2,13 @@ p {
   margin: 0;
 }
 
+.breed-select {
+  display: none;
+}
+
 .cat-info > img {
   width: 500px;
 }
-
-/*.loader {*/
-/*  margin-top: 32px;*/
-/*  font-size: 20px;*/
-/*}*/
 
 .loader {
   position: fixed;
