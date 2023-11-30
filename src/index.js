@@ -88,6 +88,7 @@ function handleLoadingRes() {
 
 function handleSuccessRes() {
   select.classList.remove('hidden');
+  select.classList.add('show');
   loader.classList.add('hidden');
   divInfo.classList.remove('hidden');
 }
