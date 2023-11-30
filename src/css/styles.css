@@ -103,5 +103,6 @@ p {
 }
 
 .ss-main.breed-select {
+  display: flex;
   width: 300px;
 }
