@@ -5,8 +5,8 @@ axios.defaults.headers.common['x-api-key'] = API_KEY;
 
 function fetchBreeds() {
   return axios(BASE_URL)
-  .then(response => {
-    return response.data;
+  .then(res => {
+    return res.data;
   })
   .catch(err => console.log(err));
 }
